@@ -19,12 +19,19 @@ testX = testX.reshape((testX.shape[0], 28, 28, 1))
 class_names = ['T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat', 'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankleboot']
 
 model = tf.keras.Sequential([
+
+    # 사진뒤집기 같이 수정해서 이미지 증강시키기
+    tf.keras.layers.experimental.preprocessing.RandomFlip('horizontal', input_shape=(28,28,1)),
+    tf.keras.layers.experimental.preprocessing.RandomRotation(0.1),
+    tf.keras.layers.experimental.preprocessing.RandomZoom(0.1),
+
     # 컨볼루션 레이어 Conv2D(n개의 이미지 복사본, (n,n 커널 사이즈),etc, activation='relu',input_shape)
     # 이미지엔 음수가 없기에 relu 자주사용
-    tf.keras.layers.Conv2D(32,(3,3), padding="same", activation='relu', input_shape=(28,28,1)),
+    tf.keras.layers.Conv2D(32,(3,3), padding="same", activation='relu'),
     tf.keras.layers.MaxPooling2D((2,2)),
-    tf.keras.layers.Conv2D(64,(3,3), padding="same", activation='relu', input_shape=(28,28,1)),
+    tf.keras.layers.Conv2D(64,(3,3), padding="same", activation='relu'),
     tf.keras.layers.MaxPooling2D((2,2)),
+
     # tf.keras.layers.Dense(128, input_shape=(28,28), activation='relu'),
 
     # 행렬을 1차원으로 압축

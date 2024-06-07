@@ -34,13 +34,30 @@ model = tf.keras.Sequential([
     tf.keras.layers.Dense(10, activation='softmax'),
 ])
 
+# checkpoint w값만 저장
+콜백함수 = tf.keras.callbacks.ModelCheckpoint(
+    filepath='checkPoint/mnist',
+    monitor='val_acc',
+    mode='max',
+    save_weights_only=True,
+    save_freq='epoch'
+)
+
+
 # summary 보려면 input_shape 넣어야함
 model.summary()
 
 optimizier = tf.keras.optimizers.legacy.Adam(learning_rate = 0.001)
 model.compile(loss = "sparse_categorical_crossentropy", optimizer=optimizier, metrics=['accuracy'])
-model.fit(trainX, trainY, validation_data=(testX,testY) ,epochs=5)
+model.fit(trainX, trainY, validation_data=(testX,testY) ,epochs=5, callbacks=[콜백함수])
 
 # 학습 후 모델평가(학습용데이터가 아닌)
 score = model.evaluate(testX,testY)
 print(score)
+
+
+# 모델 전체저장 및 불러오기
+# model.save('newpolder/model1')
+# 불러온모델 = tf.keras.models.load_model('newpolder/model1')
+# 불러온모델.summary()
+# 불러온모델.evaluate(testX,testY)

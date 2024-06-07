@@ -56,7 +56,19 @@ model.summary()
 
 optimizier = tf.keras.optimizers.legacy.Adam(learning_rate = 0.001)
 model.compile(loss = "sparse_categorical_crossentropy", optimizer=optimizier, metrics=['accuracy'])
-model.fit(trainX, trainY, validation_data=(testX,testY) ,epochs=5, callbacks=[콜백함수])
+
+# TensorBoard 사용법
+from tensorflow.keras.callbacks import TensorBoard
+import time
+
+tensorboard = TensorBoard(log_dir='logs/{}'.format('첫모델' +str(int(time.time()))))
+
+
+# EarlyStopping
+from tensorflow.keras.callbacks import EarlyStopping
+es = EarlyStopping(monitor = 'val_accuracy', patience=3, mode='max')
+
+model.fit(trainX, trainY, validation_data=(testX,testY) ,epochs=10, callbacks=[tensorboard, es])
 
 # 학습 후 모델평가(학습용데이터가 아닌)
 score = model.evaluate(testX,testY)

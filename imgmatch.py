@@ -63,7 +63,6 @@ import time
 
 tensorboard = TensorBoard(log_dir='logs/{}'.format('첫모델' +str(int(time.time()))))
 
-
 # EarlyStopping
 from tensorflow.keras.callbacks import EarlyStopping
 es = EarlyStopping(monitor = 'val_accuracy', patience=3, mode='max')

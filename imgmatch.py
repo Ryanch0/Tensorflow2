@@ -1,4 +1,3 @@
-
 import tensorflow as tf
 import matplotlib.pyplot as plt
 import numpy as np
@@ -6,10 +5,9 @@ import numpy as np
 (trainX, trainY), (testX, testY) = tf.keras.datasets.fashion_mnist.load_data()
 
 # print(trainX.shape)
-
 # 0~255를 0~1로 압축(선택사항)
 trainX = trainX / 255.0
-testX = testX / 255.0
+testX = testX / 255.0 
 
 # 전처리하기
 # 원래 데이터는 (60000,28,28) 이었는데 쉐입 바꾸기 -> (60000,28,28,1)전체 데이터에 괄호쳐달라는의미
@@ -19,12 +17,12 @@ testX = testX.reshape((testX.shape[0], 28, 28, 1))
 class_names = ['T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat', 'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankleboot']
 
 model = tf.keras.Sequential([
-
+ 
     # 사진뒤집기 같이 수정해서 이미지 증강시키기
     tf.keras.layers.experimental.preprocessing.RandomFlip('horizontal', input_shape=(28,28,1)),
     tf.keras.layers.experimental.preprocessing.RandomRotation(0.1),
     tf.keras.layers.experimental.preprocessing.RandomZoom(0.1),
-
+    
     # 컨볼루션 레이어 Conv2D(n개의 이미지 복사본, (n,n 커널 사이즈),etc, activation='relu',input_shape)
     # 이미지엔 음수가 없기에 relu 자주사용
     tf.keras.layers.Conv2D(32,(3,3), padding="same", activation='relu'),
@@ -32,7 +30,7 @@ model = tf.keras.Sequential([
     tf.keras.layers.Conv2D(64,(3,3), padding="same", activation='relu'),
     tf.keras.layers.MaxPooling2D((2,2)),
 
-    # tf.keras.layers.Dense(128, input_shape=(28,28), activation='relu'),
+    # keras.layers.Dense(128, input_shape=(28,28), activation='relu'),
 
     # 행렬을 1차원으로 압축
     tf.keras.layers.Flatten(),
@@ -49,7 +47,6 @@ model = tf.keras.Sequential([
     save_weights_only=True,
     save_freq='epoch'
 )
-
 
 # summary 보려면 input_shape 넣어야함
 model.summary()
@@ -74,8 +71,10 @@ score = model.evaluate(testX,testY)
 print(score)
 
 
+
+
 # 모델 전체저장 및 불러오기
 # model.save('newpolder/model1')
-# 불러온모델 = tf.keras.models.load_model('newpolder/model1')
+# 불러온모델 = keras.models.load_model('newpolder/model1')
 # 불러온모델.summary()
 # 불러온모델.evaluate(testX,testY)

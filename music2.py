@@ -18,6 +18,7 @@ for i, data in enumerate(uniqText):
     text_to_num[data] = i
     num_to_text[i] = data
 # print(text_to_num)
+
 # print(num_to_text)
 
 # 원본데이터를 최종적으로 숫자화(list자료)
@@ -40,7 +41,7 @@ for i in range(200):
     예측값 = Pmodel.predict(첫입력)
     예측값 = np.argmax(예측값[0]) #확률 최댓값 뽑기
 
-    new예측값 = np.random.choice(uniqText, 1, p=예측값[0]) #루프에 빠졌을경우
+    # new예측값 = np.random.choice(uniqText, 1, p=예측값[0]) #루프에 빠졌을경우
 
     # print(예측값)
 
